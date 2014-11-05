@@ -100,16 +100,22 @@ describe("About Applying What We Have Learnt", function() {
     var ingredientCount = { "{ingredient name}": 0 };
 
     /* chain() together map(), flatten() and reduce() */
-    products.map( function(x, y){
-      ingredientCount[x] = products[y].ingredients;
-    });
-    // .flatten()
-    // .reduce();
+    _(products).chain().map( function(item){
+      return item.ingredients;
+    }).flatten().each(function(ingredient) {
+        ingredientCount[ingredient] = (ingredientCount[ingredient] || 0) + 1;
+      });
 
-    console.log(ingredientCount);
-
-    expect(ingredientCount['mushrooms']).toBe(undefined);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
+
+  // products = [
+  //    { name: "Sonoma", ingredients: ["artichoke", "sundried tomatoes", "mushrooms"], containsNuts: false },
+  //    { name: "Pizza Primavera", ingredients: ["roma", "sundried tomatoes", "goats cheese", "rosemary"], containsNuts: false },
+  //    { name: "South Of The Border", ingredients: ["black beans", "jalapenos", "mushrooms"], containsNuts: false },
+  //    { name: "Blue Moon", ingredients: ["blue cheese", "garlic", "walnuts"], containsNuts: true },
+  //    { name: "Taste Of Athens", ingredients: ["spinach", "kalamata olives", "sesame seeds"], containsNuts: true }
+  // ];
 
   /*********************************************************************************/
   /* UNCOMMENT FOR EXTRA CREDIT */
